@@ -1,0 +1,9 @@
+
+Array
+(
+    [event_id] => 9
+    [event_type] => Sports
+    [from_date] => 2024-09-06
+    [to_date] => 2024-09-07
+    [event_level] => Level II Zonal Events
+)
