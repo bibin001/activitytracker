@@ -63,6 +63,7 @@ $result1 = $stmt1->get_result();
 
 while ($row = $result1->fetch_assoc()) {
     $approve = $row['approval'];
+    $regn = $row['ktu_register_no'];
 }
 
 $stmt1->close();
@@ -89,24 +90,56 @@ $conn->close();
             padding: 10px; /* Add padding */
             text-align: center; /* Center the text */
         }
+         body {
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background-color: #343a40 !important;
+        }
+        .navbar-brand, .nav-link, .dropdown-item {
+            color: #2cf !important;
+        }
+        .nav-link:hover, .dropdown-item:hover {
+            color: #adb5bd !important;
+        }
+        .container h1 {
+            margin-top: 20px;
+        }
+        .modal-header {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .btn-close {
+            color: #fff;
+        }
+        .table thead th {
+            background-color: #007bff;
+            color: white;
+        }
+        .table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        .alert {
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
         <a class="navbar-brand" href="#">Student Dashboard</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-user-circle"></i> <?php echo htmlspecialchars($_SESSION['username']); ?>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="change_password.php">Change Password</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="logout.php">Logout</a>
@@ -117,19 +150,20 @@ $conn->close();
     </div>
 </nav>
 
-<div class="container mt-5">
+<div class="container mt-4">
     <h1>Welcome, <?php echo htmlspecialchars($_SESSION['username']); ?>!</h1>
+    <p class="text-muted">Register Number: <?php echo $regn;?></p>
     <?php
         if($approve=='approved') {
     ?>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addActivityModal">Add Activity</button>
+        <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addActivityModal">Add Activity</button>
     <?php
         }
     ?>
     <?php
         if($approve=='pending') {
     ?>
-        <button class="btn btn-warning">Approval from faculty advisor is pending</button>
+        <button class="btn btn-warning mb-3">Approval from faculty advisor is pending</button>
     <?php
         }
     ?>
@@ -152,6 +186,7 @@ $conn->close();
                             "Sports",
                             "Games",
                             "Music",
+                            "MOOC",
                             "Performing Arts",
                             "Literary Arts",
                             "Tech-fest",
@@ -204,6 +239,15 @@ $conn->close();
                             <option value="Level III State or University Events">Level III State/University Events</option>
                             <option value="Level IV National Events">Level IV National Events</option>
                             <option value="Level V International Events">Level V International Events</option>
+                            <option value="No Idea">Select this if you don't know</option>
+                        </select>
+                         <label for="event_category" class="form-label">Event Category</label>
+                        <select class="form-select" name="event_category" aria-label="Default select example" required>
+                            <option selected>Open this select menu</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="0">Select this if you don't know</option>
                         </select>
                         <div class="mb-3">
                             <label for="from_date" class="form-label">From Date</label>
@@ -228,8 +272,8 @@ $conn->close();
                             </select>
                         </div> -->
                         <div class="mb-3">
-                            <label for="pdf_file" class="form-label">Upload PDF,jpg or jpeg (max 80kb)</label>
-                            <input type="file" class="form-control" name="pdf_file" accept=".pdf, .jpg, .jpeg" required>
+                            <label for="pdf_file" class="form-label">Upload PDF (max 80kb)</label>
+                            <input type="file" class="form-control" name="pdf_file" accept=".pdf" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
@@ -237,44 +281,8 @@ $conn->close();
             </div>
         </div>
     </div>
-
-    <h2 class="mt-5">Your Activities</h2>
-    <div class="activities-table">
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Event Type</th>
-                    <th>Event Level</th>
-                    <th>From Date</th>
-                    <th>To Date</th>
-                    <!-- <th>Semester</th> -->
-                    <th>PDF File</th>
-                    <th>Status</th>
-                    <th>Activity Points</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php  $a=1;?>
-                <?php foreach ($activities as $activity): ?>
-                <tr>
-                    <td><?php echo $a; ?></td>
-                    <td><?php echo htmlspecialchars($activity['event_type']); ?></td>
-                    <td><?php echo htmlspecialchars($activity['event_level']); ?></td>
-                    <td><?php echo htmlspecialchars($activity['from_date']); ?></td>
-                    <td><?php echo htmlspecialchars($activity['to_date']); ?></td>
-                    <!-- <td><?php //echo htmlspecialchars($activity['semester']); ?></td> -->
-                    <td><a href="<?php echo htmlspecialchars($activity['pdf_file']); ?>" target="_blank">View PDF</a></td>
-                    <td><?php echo htmlspecialchars($activity['stat']); ?></td>
-                    <td><?php echo htmlspecialchars($activity['points']); ?></td>
-                </tr>
-                <?php $a=$a+1; ?>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
-
-<?php
+  <!-- SUMMMARY POINTS -->  
+    <?php
                     $yearly_points = []; // To store points for each academic year
                     $total_points = 0;   // To store total points across all activities
 
@@ -306,15 +314,83 @@ $conn->close();
                 ?>
 
                 <!-- Display Total Points for Each Academic Year -->
-                <h3>Total Points per Academic Year</h3>
-                <ul>
-                    <?php foreach ($yearly_points as $academic_year => $points): ?>
-                    <li><strong><?php echo $academic_year; ?>:</strong> <?php echo $points; ?> points</li>
-                    <?php endforeach; ?>
-                </ul>
+                <div class="container my-4">
+                    <div class="row">
+                        <!-- Total Points Summary -->
+                        <div class="col-md-4">
+                            <div class="card shadow-lg border-0 rounded">
+                                <div class="card-body" style="background: linear-gradient(to right, #000428, #004e92); color: white;">
+                                    <h4 class="card-title text-center">Total Points Summary</h4>
+                                    <hr style="border-top: 2px solid white; opacity: 0.5;">
+                                    <h5>Total Points per Academic Year:</h5>
+                                    <ul style="list-style: none; padding-left: 0;">
+                                        <?php foreach ($yearly_points as $academic_year => $points): ?>
+                                            <li style="padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.2);">
+                                                <strong><?php echo $academic_year; ?>:</strong> <?php echo $points; ?> points
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                    <h5 class="mt-3">Overall Total Points:</h5>
+                                    <div class="p-3 mt-2 text-center" style="background: rgba(255, 255, 255, 0.3); border-radius: 8px;">
+                                        <h3 style="margin: 0;"><?php echo $total_points; ?> points</h3>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
 
-                <!-- Display Overall Total Points -->
-                <h3>Total Points for All Activities: <?php echo $total_points; ?> points</h3>
+        <!-- Activities Table -->
+                    <div class="col-md-8">
+                        <h2 class="mt-0 mb-4">Your Activities</h2>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Event Type</th>
+                                    <th>Event Level</th>
+                                    <th>Category</th>
+                                    <th>From Date</th>
+                                    <th>To Date</th>
+                                    <!-- <th>Semester</th> -->
+                                    <th>PDF File</th>
+                                    <th>Status</th>
+                                    <th>Activity Points</th>
+                                </tr>
+                            </thead>
+                                <tbody>
+                                    <?php $a = 1; ?>
+                                    <?php foreach ($activities as $activity): ?>
+                                        <tr>
+                                            <td><?php echo $a; ?></td>
+                                            <td><?php echo htmlspecialchars($activity['event_type']); ?></td>
+                                            <td><?php echo htmlspecialchars($activity['event_level']); ?></td>
+                                            <?php
+                                            if ($activity['category'] == 0) {
+                                                $catgy = 'NA';
+                                            }
+                                            if ($activity['category'] != 0) {
+                                                $catgy = $activity['category'];
+                                            }
+                                            ?>
+                                            <td><?php echo htmlspecialchars($catgy); ?></td>
+                                            <td><?php echo htmlspecialchars($activity['from_date']); ?></td>
+                                            <td><?php echo htmlspecialchars($activity['to_date']); ?></td>
+                                            <!-- <td><?php //echo htmlspecialchars($activity['semester']); ?></td> -->
+                                            <td><a href="<?php echo htmlspecialchars($activity['pdf_file']); ?>" target="_blank">View PDF</a></td>
+                                            <td><?php echo htmlspecialchars($activity['stat']); ?></td>
+                                            <td><?php echo htmlspecialchars($activity['points']); ?></td>
+                                        </tr>
+                                        <?php $a = $a + 1; ?>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
 
 
 </div>

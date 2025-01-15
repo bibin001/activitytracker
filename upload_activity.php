@@ -15,7 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $from_date = $_POST['from_date']; // Get from date from form
     $to_date = $_POST['to_date']; // Get to date from form
     $event_level = $_POST['event_level']; // Get event level from form
+    $event_category = $_POST['event_category']; // Get event event_category from form
     $status = "Pending"; // Set status to pending
+    
+    
 
     // File upload handling
     $uploaded_file = $_FILES['pdf_file'];
@@ -24,8 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $file_size = $uploaded_file['size'];
     $file_error = $uploaded_file['error'];
     
+    $random_number = str_pad(mt_rand(0, 999999), 6, '0', STR_PAD_LEFT);
+    $new_file_name = "{$student_id}_{$random_number}_{$file_name}";
+    
     // Allowed file extensions
-    $allowed_extensions = ['pdf', 'jpg', 'jpeg'];
+    $allowed_extensions = ['pdf'];
 
     // Get the file extension
     $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
@@ -38,14 +44,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!is_dir($target_directory)) {
                 mkdir($target_directory); // Create uploads directory if it doesn't exist
             }
-            $target_file = $target_directory . basename($file_name);
+            $target_file = $target_directory . basename($new_file_name);
 
             // Move the uploaded file
             if (move_uploaded_file($file_tmp, $target_file)) {
                 // Prepare SQL statement to insert activity details into database
-                $sql = "INSERT INTO events (student_id, event_type, event_level, from_date, to_date, pdf_file, stat) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO events (student_id, event_type, event_level,category, from_date, to_date, pdf_file, stat) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($sql);
-                $stmt->bind_param("issssss", $student_id, $event_type, $event_level, $from_date, $to_date, $target_file, $status);
+                $stmt->bind_param("ississss", $student_id, $event_type, $event_level,$event_category, $from_date, $to_date, $target_file, $status);
 
                 // Execute the prepared statement
                 if ($stmt->execute()) {

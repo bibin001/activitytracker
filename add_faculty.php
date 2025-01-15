@@ -261,7 +261,7 @@ $conn->close();
                                 </div>
                                 <div class="mb-3">
                                     <label for="edit_semester" class="form-label">Semester</label>
-                                    <select class="form-select" name="edit_semester" required>
+                                    <select class="form-select" name="edit_semester">
                                         <option value="<?php echo htmlspecialchars($faculty['semester']); ?>" selected><?php echo htmlspecialchars($faculty['semester']); ?></option>
                                         <option value="S1">S1</option>
                                         <option value="S2">S2</option>
@@ -282,7 +282,7 @@ $conn->close();
                                 </div>
                                 <div class="mb-3">
                                     <label for="edit_division" class="form-label">Division</label>
-                                    <select class="form-select" name="edit_division" required>
+                                    <select class="form-select" name="edit_division">
                                         <option value="<?php echo htmlspecialchars($faculty['division']); ?>" selected><?php echo htmlspecialchars($faculty['division']); ?></option>
                                         <option value="A">A</option>
                                         <option value="B">B</option>
@@ -292,7 +292,7 @@ $conn->close();
                                 </div>
                                 <div class="mb-3">
                                     <label for="edit_admission_year" class="form-label">Admission Year</label>
-                                    <select class="form-select" name="edit_admission_year" required>
+                                    <select class="form-select" name="edit_admission_year">
                                         <option value="<?php echo htmlspecialchars($faculty['admission_year']); ?>" selected><?php echo htmlspecialchars($faculty['admission_year']); ?></option>
                                         <option value="2021">2021</option>
                                         <option value="2022">2022</option>
@@ -337,7 +337,7 @@ $conn->close();
                     </div>
                     <div class="mb-3">
                         <label for="semester" class="form-label">Semester</label>
-                        <select class="form-select" name="semester" required>
+                        <select class="form-select" name="semester" >
                             <option value="">Select Semester</option>
                             <option value="S1">S1</option>
                             <option value="S2">S2</option>
@@ -358,7 +358,7 @@ $conn->close();
                     </div>
                     <div class="mb-3">
                         <label for="division" class="form-label">Division</label>
-                        <select class="form-select" name="division" required>
+                        <select class="form-select" name="division" >
                             <option value="">Select Division</option>
                             <option value="A">A</option>
                             <option value="B">B</option>
@@ -368,7 +368,7 @@ $conn->close();
                     </div>
                     <div class="mb-3">
                         <label for="admission_year" class="form-label">Admission Year</label>
-                        <select class="form-select" name="admission_year" required>
+                        <select class="form-select" name="admission_year" >
                             <option value="">Select Year</option>
                             <option value="2021">2021</option>
                             <option value="2022">2022</option>

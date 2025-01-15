@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Activity Tracker</title>
+    <!-- For .png file -->
+    <link rel="icon" href="/fav.png" type="image/png">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -12,7 +14,7 @@
         }
         .login-container {
             max-width: 400px;
-            margin: 100px auto;
+            margin: 50px auto;
             padding: 20px;
             background-color: white;
             border-radius: 10px;
@@ -40,7 +42,7 @@
 <body>
     <div class="login-container">
         <!-- Logo -->
-        <img src="images/logo1.png" alt="Logo" class="logo"> <!-- Add the logo image here -->
+        <img src="images/Tochlogo.png" alt="Logo" class="logo"> <!-- Add the logo image here -->
 
         <h3 class="text-center mb-4">Activity Tracker</h3>
         
@@ -148,7 +150,7 @@
                             <label for="admission_year" class="form-label">Admission Year</label>
                             <select class="form-select" name="admission_year" id="admission_year" aria-label="Default select example" required>
                                 <option value="">Open this select menu</option>
-                                <option value="2021">2020</option>
+                                <option value="2021">2021</option>
                                 <option value="2022">2022</option>
                                 <option value="2023">2023</option>
                                 <option value="2024">2024</option>
@@ -228,6 +230,24 @@
             }
         });
     </script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const currentYearElement = document.getElementById("currentYear");
+        const today = new Date();
+        const year = today.getFullYear();
+        
+        // Set the current year in the element
+        currentYearElement.textContent = year;
+
+        // Optional: Refresh year value on page reload on Jan 1
+        setTimeout(() => {
+            const newYear = new Date().getFullYear();
+            if (newYear !== year) {
+                currentYearElement.textContent = newYear;
+            }
+        }, 86400000); // Check for the new year every 24 hours (in milliseconds)
+    });
+</script>
 <?php //include('footer.php'); ?>
 </body>
 </html>

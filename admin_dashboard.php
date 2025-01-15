@@ -85,6 +85,7 @@ $conn->close();
     <a href="add_faculty.php">Add Faculty</a>
     <a href="add_hod.php">Add HoD</a>
     <a href="view_activities.php">View Activities</a>
+    <a href="sendemail.php">Send Email</a>
 </div>
 
 <!-- Main Content -->

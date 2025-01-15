@@ -48,6 +48,9 @@ if (isset($_POST['submit'])) {
                 elseif ($user['usertype'] === 'hod') {
                     header("Location: hod_dashboard.php");
                 }
+                elseif ($user['usertype'] === 'csadmin') {
+                    header("Location: hod_dashboard.php");
+                }
                 exit();
             } else {
                 // Incorrect password
